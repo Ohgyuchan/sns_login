@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Colors.redAccent,
       shape: StadiumBorder(),
       onPressed: () async {
-        print(_loginType);
         _loginType == LoginType.Google
             ? await Authentication.signOutWithGoogle(context: context)
             : await Authentication.signOutWithFacebook(context: context);
@@ -62,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: EdgeInsets.all(6.0),
               child: Text(
-                'Sign Out',
+                _loginType.toString(),
                 style: TextStyle(
                   fontSize: 19.0,
                   color: Colors.black,

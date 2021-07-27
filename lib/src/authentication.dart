@@ -7,7 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sns_login/screens/home_screen.dart';
 
 class Authentication {
-  static late LoginType _loginType;
+  static late LoginType _loginType = LoginType.Google;
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
   }) async {
@@ -50,6 +50,7 @@ class Authentication {
       {required BuildContext context}) async {
     try {
       await FacebookAuth.instance.logOut();
+      await FirebaseAuth.instance.signOut();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         Authentication.customSnackBar(
