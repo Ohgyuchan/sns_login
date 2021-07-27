@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "701292747004",
+    "project_id": "test-sns-login-1f590",
+    "storage_bucket": "test-sns-login-1f590.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701292747004:android:a4eb3172196f5ba2bc5f79",
+        "android_client_info": {
+          "package_name": "com.example.sns_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701292747004-fke4ssfuiffq5nmnb6fdonsa68hkuqcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvBZwdhY6TK3zpE0ASqGOS86qXFMYO79U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701292747004-fke4ssfuiffq5nmnb6fdonsa68hkuqcj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
