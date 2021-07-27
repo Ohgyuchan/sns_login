@@ -46,9 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Colors.redAccent,
       shape: StadiumBorder(),
       onPressed: () async {
-        _loginType == LoginType.Google
-            ? await Authentication.signOutWithGoogle(context: context)
-            : await Authentication.signOutWithFacebook(context: context);
+        await Authentication.signOutWithGoogle(context: context);
         Navigator.of(context).pushReplacement(_routeToSignInScreen());
       },
       elevation: 5.0,

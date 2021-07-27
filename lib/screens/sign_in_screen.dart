@@ -71,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return MaterialButton(
       color: Color(0xFF1877F2),
       shape: StadiumBorder(),
-      onPressed: _facebookSignIn,
+      onPressed: () {},
       elevation: 5.0,
       child: Container(
         width: 200,
@@ -139,21 +139,6 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _facebookSignIn() async {
-    User? user = await Authentication.signInWithFacebook();
-
-    if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(
-            user: user,
-            loginType: LoginType.Facebook,
-          ),
-        ),
-      );
-    }
   }
 
   Future<void> _googleSignIn() async {

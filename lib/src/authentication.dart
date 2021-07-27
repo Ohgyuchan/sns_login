@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sns_login/screens/home_screen.dart';
 
@@ -27,37 +26,6 @@ class Authentication {
     }
 
     return firebaseApp;
-  }
-
-  static Future<User?> signInWithFacebook() async {
-    _loginType = LoginType.Facebook;
-    final LoginResult result = await FacebookAuth.instance.login();
-
-    final AccessToken accessToken = result.accessToken!;
-
-    final facebookAuthCredential =
-        FacebookAuthProvider.credential(accessToken.token);
-
-    final UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
-
-    final User? user = userCredential.user;
-
-    return user;
-  }
-
-  static Future<void> signOutWithFacebook(
-      {required BuildContext context}) async {
-    try {
-      await FacebookAuth.instance.logOut();
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        Authentication.customSnackBar(
-          content: 'Error signing out. Try again.',
-        ),
-      );
-    }
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
