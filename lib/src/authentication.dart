@@ -1,10 +1,15 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sns_login/screens/home_screen.dart';
+import 'package:uuid/uuid.dart';
 
 class Authentication {
   static late LoginType _loginType = LoginType.Google;
@@ -27,6 +32,37 @@ class Authentication {
     }
 
     return firebaseApp;
+  }
+
+  static Future<UserCredential> signInWithKaKao() async {
+    final clientState = Uuid().v4();
+    final url = Uri.https('kauth.kakao.com', '/oauth/authorize', {
+      'response_type': 'code',
+      'client_id': "<카카오 관리 콘솔에서 제공하는 REST_API 키 입력>",
+      'response_mode': 'form_post',
+      'redirect_uri': '<카카오에 등록한 authrization_code 받을 return uri 입력>',
+      'scope': 'account_email profile',
+      'state': clientState,
+    });
+
+    final result = await FlutterWebAuth.authenticate(
+        url: url.toString(),
+        callbackUrlScheme: "webauthcallback"); //"applink"//"signinwithapple"
+    final body = Uri.parse(result).queryParameters;
+    print(body["code"]);
+
+    final tokenUrl = Uri.https('kauth.kakao.com', '/oauth/token', {
+      'grant_type': 'authorization_code',
+      'client_id': "<카카오 관리 콘솔에서 제공하는 REST_API 키 입력>",
+      'redirect_uri': '<카카오에 등록한 authrization_code 받을 return uri 입력>',
+      'code': body["code"],
+    });
+    var responseTokens = await http.post(tokenUrl.toString());
+    Map<String, dynamic> bodys = json.decode(responseTokens.body);
+    var response = await http.post(
+        "https://adaptive-river-train.glitch.me/callbacks/kakao/token",
+        body: {"accessToken": bodys['access_token']});
+    return FirebaseAuth.instance.signInWithCustomToken(response.body);
   }
 
   static Future<User?> signInWithFacebook() async {
