@@ -51,12 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
       User? user = FirebaseAuth.instance.currentUser;
 
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomeScreen(
-                    user: user!,
-                    loginType: LoginType.Kakao,
-                  )));
+          context, MaterialPageRoute(builder: (context) => ProfileScreen()));
     } catch (e) {
       print(e.toString());
     }
