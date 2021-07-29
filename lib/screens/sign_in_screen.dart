@@ -46,12 +46,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   _issueAccessToken(String authCode) async {
     try {
-      var token;
-      if (token == null) {
-        token = await AuthApi.instance.issueAccessToken(authCode);
-        AccessTokenStore.instance.toStore(token);
-        print(token);
-      }
+      var token = await AuthApi.instance.issueAccessToken(authCode);
+      AccessTokenStore.instance.toStore(token);
+      print(token);
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProfileScreen()));
     } catch (e) {
