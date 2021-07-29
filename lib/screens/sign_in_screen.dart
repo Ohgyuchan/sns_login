@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sign_button/constants.dart';
-import 'package:sign_button/create_button.dart';
+import 'package:kakao_flutter_sdk/all.dart' as kakao;
+import 'package:sign_button/sign_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sns_login/screens/profile_screen.dart';
 import 'package:sns_login/src/authentication.dart';
 import 'package:sns_login/screens/home_screen.dart';
 
@@ -11,8 +12,15 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  bool _isKakaoTalkInstalled = false;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _initKakaoTalkInstalled();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +32,52 @@ class _SignInScreenState extends State<SignInScreen> {
           child: _bodyWidget()),
       resizeToAvoidBottomInset: true,
     );
+  }
+
+  _initKakaoTalkInstalled() async {
+    final installed = await kakao.isKakaoTalkInstalled();
+    print('Kakao Install: ' + installed.toString());
+
+    setState(() {
+      _isKakaoTalkInstalled = installed;
+    });
+  }
+
+  _issueAccessToken(String authCode) async {
+    try {
+      var token = await kakao.AuthApi.instance.issueAccessToken(authCode);
+      kakao.AccessTokenStore.instance.toStore(token);
+      print(token);
+      User? user = FirebaseAuth.instance.currentUser;
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    user: user!,
+                    loginType: LoginType.Kakao,
+                  )));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  _loginWithKakao() async {
+    try {
+      var code = await kakao.AuthCodeClient.instance.request();
+      await _issueAccessToken(code);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  _loginWithTalk() async {
+    try {
+      var code = await kakao.AuthCodeClient.instance.requestWithTalk();
+      await _issueAccessToken(code);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Widget _bodyWidget() {
@@ -222,7 +276,7 @@ class _SignInScreenState extends State<SignInScreen> {
       color: Color(0xffffd25c),
       shape: StadiumBorder(),
       onPressed: () {
-        print('click kakao');
+        _isKakaoTalkInstalled ? _loginWithTalk() : _loginWithKakao();
       },
       elevation: 5.0,
       child: Container(

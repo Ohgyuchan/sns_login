@@ -36,6 +36,12 @@ dependencies:
   flutter_web_auth: ^0.3.0
   uuid: ^3.0.4
   http: ^0.13.3
+  dio: ^4.0.0
+  json_annotation: ^4.0.1
+  package_info: ^2.0.2
+  platform: ^3.0.0
+  shared_preferences: ^2.0.6
+  kakao_flutter_sdk: ^0.7.0
 
 dev_dependencies:
   flutter_test:
