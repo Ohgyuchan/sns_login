@@ -35,6 +35,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  // TODO: 파이어베이스 커스텀 토큰 인증
   _initKakaoTalkInstalled() async {
     final installed = await kakao.isKakaoTalkInstalled();
     print('Kakao Install: ' + installed.toString());

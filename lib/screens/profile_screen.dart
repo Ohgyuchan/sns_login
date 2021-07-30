@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/all.dart' as kakao;
 import 'package:sns_login/screens/sign_in_screen.dart';
-import 'package:sns_login/src/authentication.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
